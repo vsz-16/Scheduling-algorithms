@@ -1,3 +1,4 @@
+#Este códgio também está disponível no: https://github.com/vsz-16/Scheduling-algorithms.git
 import numpy as np #Chama a função numpy de np e traz pro código
 np.set_printoptions(precision=3, suppress=True) #Arredonda as casas decimais na matriz pra não ficar horrível
 
@@ -24,9 +25,13 @@ def recebeDados():
         if resposta == "Y":
             return matriz, m
         else: 
-            print("\nOps! Vamos preencher os dados novamente.\n")
+            print("\nOk! Vamos preencher os dados novamente.\n")
 
 def pivot(matriz, m):
+    #Salvando a matriz pra usar no calculo do resíduo depois
+    AOrig = np.copy(matriz[:, :m])
+    bOrig = np.copy(matriz[:, m])
+
     for i in range(m - 1):
         # Variáveis auxiliares para encontrar o maior pivô na coluna 'i'
         maior = np.abs(matriz[i, i])
@@ -50,8 +55,6 @@ def pivot(matriz, m):
             a = matriz[j, i] / matriz[i, i]
             matriz[j] = matriz[j] - a * matriz[i]
             
-    print(f"==== Essa é sua matriz escalonada ====\n{matriz}")
-
 #Resolvendo o sistema
     x = np.zeros(m)
     for l in range(m - 1, -1, -1):
@@ -63,7 +66,17 @@ def pivot(matriz, m):
         x[l] = soma / matriz[l, l]
     print(f"\nA resolução é: {x}\n")
 
+    #Calculo do resíduo
+    residuo = bOrig - np.dot(AOrig, x)
+    erro = np.linalg.norm(residuo)
+    print("--- Análise de Erro ---")
+    print(f"Vetor Resíduo: {residuo}")
+    print(f"Magnitude do Erro: {erro:.2e}\n")
+
 def gauss(matriz, m):
+    AOrig = np.copy(matriz[:, :m])
+    bOrig = np.copy(matriz[:, m])
+    
     #Mesma coisa do outro só que sem trocar as linhas
     for i in range(m - 1):
         # Se o pivô da diagonal for zero o Gauss simples não consegue resolver
@@ -87,7 +100,16 @@ def gauss(matriz, m):
     for idx in range(m):
         print(f"X{idx+1} = {x[idx]:.2f}")
 
+    residuo = bOrig - np.dot(AOrig, x)
+    erro = np.linalg.norm(residuo)
+    print("--- Análise de Erro ---")
+    print(f"Vetor Resíduo: {residuo}")
+    print(f"Magnitude do Erro: {erro:.2e}\n")
+
 def lu(matriz, m):
+    AOrig = np.copy(matriz[:, :m])
+    bOrig = np.copy(matriz[:, m])
+
     # Separa a matriz A do vetor b
     A = np.copy(matriz[:, :m])
     b = np.copy(matriz[:, m])
@@ -127,7 +149,16 @@ def lu(matriz, m):
         
     print(f"\n==== A resolução pelo método LU Simples ====\n{x}\n")
 
+    residuo = bOrig - np.dot(AOrig, x)
+    erro = np.linalg.norm(residuo)
+    print("--- Análise de Erro ---")
+    print(f"Vetor Resíduo: {residuo}")
+    print(f"Magnitude do Erro: {erro:.2e}\n")
+
 def luP(matriz, m):
+    AOrig = np.copy(matriz[:, :m])
+    bOrig = np.copy(matriz[:, m])
+
     # Separa a matriz A do vetor b 
     A = np.copy(matriz[:, :m])
     b = np.copy(matriz[:, m])
@@ -177,6 +208,12 @@ def luP(matriz, m):
         x[i] = soma / U[i, i]
 
     print(f"\n====A resolução pelo método LU==== \n{x}\n")
+
+    residuo = bOrig - np.dot(AOrig, x)
+    erro = np.linalg.norm(residuo)
+    print("--- Análise de Erro ---")
+    print(f"Vetor Resíduo: {residuo}")
+    print(f"Magnitude do Erro: {erro:.2e}\n")
 
 def main():
     while True:
