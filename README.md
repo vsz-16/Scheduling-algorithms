@@ -1,4 +1,4 @@
-# 🧮 Resolvedor de Sistemas Lineares (Métodos de Gauss e LU)
+# 🧮 Resolvedor de Sistemas Lineares
 
 Um sistema interativo desenvolvido em **Python** para a resolução de sistemas de equações lineares utilizando métodos diretos de Cálculo Numérico. O projeto aplica conceitos de álgebra linear matricial e foca na eficiência computacional através da vetorização de operações.
 
